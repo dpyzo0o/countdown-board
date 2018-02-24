@@ -12,11 +12,13 @@ const MARGIN_TOP = 30;
 const MARGIN_LEFT = (CANVAS_WIDTH - 6 * DIGIT_WIDTH - 2 * COLON_WIDTH) / 2; // horizontally center the countdown
 const COLOR = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
 const ONE_DAY = 24 * 3600;
+const FRAME_RATE = 30;
 
 // target date
 var targetTime = new Date(2018, 3, 6, 10, 0, 0, 0);
 var timeToDisplay = 0;
 var balls = [];
+var intervalID;
 
 window.onload = function () {
 
@@ -31,13 +33,29 @@ window.onload = function () {
 
   timeToDisplay = getTimeToDisplay();
 
-  this.setInterval(function () {
+  startCountdown();
+
+  // active
+  window.addEventListener("focus", startCountdown);
+
+  // inactive
+  window.addEventListener("blur", stopCountdown);
+};
+
+
+function startCountdown() {
+  intervalID = window.setInterval(function () {
     // draw patterns
     render(ctx);
     // update balls
     update();
-  }, 50);
-};
+  }, 1000 / FRAME_RATE);
+}
+
+
+function stopCountdown() {
+  window.clearInterval(intervalID);
+}
 
 
 function render(ctx) {
