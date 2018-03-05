@@ -29,11 +29,11 @@ window.onload = function () {
   // horizontally and vertically centered
   canvas.style.margin = (document.documentElement.clientHeight - CANVAS_HEIGHT) / 2 + "px auto";
 
-  ctx = canvas.getContext("2d");
+  var ctx = canvas.getContext("2d");
 
   timeToDisplay = getTimeToDisplay();
 
-  startCountdown();
+  startCountdown(ctx);
 
   // active
   window.addEventListener("focus", startCountdown);
@@ -43,7 +43,7 @@ window.onload = function () {
 };
 
 
-function startCountdown() {
+function startCountdown(ctx) {
   intervalID = window.setInterval(function () {
     // draw patterns
     render(ctx);
